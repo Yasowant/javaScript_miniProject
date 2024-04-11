@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .main {
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+        width: 100%;
+        text-align: center;
+      }
+
+      .canvas {
+        border: 1px solid black;
+        margin-top: 20px;
+      }
+
+      .top {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        justify-content: center;
+      }
+
+      .top > div {
+        display: inline-block;
+        margin: 0 10px;
+      }
+
+      .bottom {
+        margin-top: 20px;
+      }
+
+      .bottom > button {
+        margin: 0 10px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .btn-danger {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background-color: #c82333;
+      }
+
+      .btn-success {
+        background-color: #28a745;
+        color: white;
+      }
+
+      .btn-success:hover {
+        background-color: #218838;
+      }
+
+      .btn-warning {
+        background-color: #ffc107;
+        color: black;
+      }
+
+      .btn-warning:hover {
+        background-color: #e0a800;
+      }
+      .fontSize {
+        height: 28px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div class="top">
+        <div class="black">
+          <p>Text color picker</p>
+          <input class="form-control" type="color" id="colorPicker" />
+        </div>
+        <div class="black">
+          <p>Backgrounds</p>
+          <input class="form-control" type="color" id="canvasColor" />
+        </div>
+        <div class="black">
+          <p>Font Size</p>
+          <select class="fontSize" id="fontsize">
+            <option value="5">5px</option>
+            <option value="10">10px</option>
+            <option value="15">15px</option>
+            <option value="20">20px</option>
+            <option value="25">25px</option>
+          </select>
+        </div>
+      </div>
+      <canvas class="canvas" id="myCanvas" width="500" height="500"></canvas>
+      <div class="bottom">
+        <button class="btn btn-danger" onclick="clearCanvas()">Clear</button>
+        <button class="btn btn-success" onclick="saveAndDownload()">
+          Save and Download
+        </button>
+        <button class="btn btn-warning">Reference Saved Signature</button>
+      </div>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
