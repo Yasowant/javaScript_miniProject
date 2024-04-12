@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        position: relative;
+      }
+      video {
+        height: 600px;
+        width: 100%;
+      }
+      #weatherinfo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* border: 2px solid red; */
+        gap: 10px;
+        position: absolute;
+        top: 150px;
+        right: 530px;
+        flex-direction: column;
+      }
+      #head {
+        color: rgba(0,  0,  0,  0.815);
+      }
+    </style>
+  </head>
+  <body>
+    <video
+      autoplay
+      loop
+      muted
+      src="https://cdn.pixabay.com/video/2015/10/23/1154-143492926_tiny.mp4"
+    ></video>
+    <div id="weatherinfo">
+      <h1 id="head">Weather App</h1>
+      <input type="text" id="City_info" placeholder="Enter your city name" />
+      <button type="button" id="search_btn">Get weather</button>
+      <h1 id="Cityname"></h1>
+      <h2 id="Temperature"></h2>
+      <h3 id="Weather_Description"></h3>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        let City_info = document.getElementById('City_info');
+        let Cityname = document.getElementById('Cityname');
+        let Temperature = document.getElementById('Temperature');
+        let Weather_Description = document.getElementById(
+          'Weather_Description'
+        );
+        let search_btn = document.getElementById('search_btn');
+        console.log(
+          City_info,
+          Cityname,
+          Temperature,
+          Weather_Description,
+          search_btn
+        );
+
+        search_btn.addEventListener('click', () => {
+          let city = City_info.value;
+          console.log(city);
+          if (City_info.value !== '') {
+            getWeatherdata(city);
+          } else {
+            console.log('Please enter your city name');
+          }
+        });
+      });
+
+      async function getWeatherdata(city) {
+        let apiKey = '474137046a5f42b5955b674b9f9eb7b3';
+        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+        try {
+          let response = await fetch(apiUrl);
+          let data = await response.json();
+          console.log(data);
+          if (data.cod === 200) {
+            Cityname.innerHTML = `City: ${data.name}`;
+            Temperature.innerHTML = `Temperature: ${data.main.temp}°C`;
+            Weather_Description.innerHTML = `Weather Description: ${data.weather[0].description}`;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    </script>
+  </body>
+</html>
