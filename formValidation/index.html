@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <style>
+      body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      #registrationForm {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 400px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+      }
+
+      input[type='text'],
+      input[type='password'],
+      input[type='email'],
+      select,
+      input[type='date'] {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #dddfe2;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      .gender-group label {
+        margin-right: 10px;
+        color: #555;
+      }
+
+      button[type='submit'] {
+        background-color: #1877f2;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button[type='submit']:hover {
+        background-color: #166fe5;
+      }
+
+      /* Custom styles */
+      #registrationForm {
+        position: relative;
+      }
+
+      #registrationForm::before {
+        /* content: ''; */
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        background-color: #1877f2;
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      #registrationForm form {
+        position: relative;
+        z-index: 1;
+      }
+
+      #registrationForm h2 {
+        font-size: 24px;
+        color: #1877f2;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      #registrationForm .form-group label {
+        font-weight: bold;
+      }
+
+      #registrationForm .gender-group label {
+        display: inline-block;
+        margin-right: 20px;
+      }
+
+      #registrationForm .gender-group label::before {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid #dddfe2;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
+
+      #registrationForm
+        .gender-group
+        input[type='radio']:checked
+        + label::before {
+        background-color: #1877f2;
+        border-color: #1877f2;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="registrationForm">
+      <form>
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" required />
+          <div class="error-message" id="firstNameError"></div>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" required />
+          <div class="error-message" id="lastNameError"></div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+          <div class="error-message" id="passwordError"></div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+          />
+          <div class="error-message" id="confirmPasswordError"></div>
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" name="dob" required />
+          <div class="error-message" id="dobError"></div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+          <div class="error-message" id="emailError"></div>
+        </div>
+        <div class="form-group gender-group">
+          <label>Gender:</label>
+          <label for="male">Male</label>
+          <input type="radio" id="male" name="gender" value="male" required />
+          <label for="female">Female</label>
+          <input type="radio" id="female" name="gender" value="female" />
+          <label for="other">Other</label>
+          <input type="radio" id="other" name="gender" value="other" />
+          <div class="error-message" id="genderError"></div>
+        </div>
+        <button type="submit">Register</button>
+      </form>
+    </div>
+
+    <script>
+      const form = document.querySelector('form');
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (validateForm()) {
+          saveDataToLocalStorage();
+          alert('Registration successful!');
+          form.reset();
+        }
+      });
+
+      function validateForm() {
+        let isValid = true;
+
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword =
+          document.getElementById('confirmPassword').value;
+        const dob = document.getElementById('dob').value;
+        const email = document.getElementById('email').value.trim();
+        const gender = document.querySelector('input[name="gender"]:checked');
+
+        const firstNameError = document.getElementById('firstNameError');
+        const lastNameError = document.getElementById('lastNameError');
+        const passwordError = document.getElementById('passwordError');
+        const confirmPasswordError = document.getElementById(
+          'confirmPasswordError'
+        );
+        const dobError = document.getElementById('dobError');
+        const emailError = document.getElementById('emailError');
+        const genderError = document.getElementById('genderError');
+
+        firstNameError.textContent = '';
+        lastNameError.textContent = '';
+        passwordError.textContent = '';
+        confirmPasswordError.textContent = '';
+        dobError.textContent = '';
+        emailError.textContent = '';
+        genderError.textContent = '';
+
+        // First Name validation
+        if (firstName === '') {
+          firstNameError.textContent = 'First Name is required';
+          isValid = false;
+        } else if (!/^[A-Za-z]+$/.test(firstName)) {
+          firstNameError.textContent =
+            'First Name must contain only alphabetic characters';
+          isValid = false;
+        }
+
+        // Last Name validation
+        if (lastName === '') {
+          lastNameError.textContent = 'Last Name is required';
+          isValid = false;
+        } else if (!/^[A-Za-z]+$/.test(lastName)) {
+          lastNameError.textContent =
+            'Last Name must contain only alphabetic characters';
+          isValid = false;
+        }
+
+        // Password validation
+        if (password === '') {
+          passwordError.textContent = 'Password is required';
+          isValid = false;
+        } else if (password.length < 8) {
+          passwordError.textContent = 'Password must be at least 8 characters';
+          isValid = false;
+        }
+
+        // Confirm Password validation
+        if (confirmPassword === '') {
+          confirmPasswordError.textContent = 'Please confirm password';
+          isValid = false;
+        } else if (confirmPassword !== password) {
+          confirmPasswordError.textContent = 'Passwords do not match';
+          isValid = false;
+        }
+
+        // Date of Birth validation
+        if (dob === '') {
+          dobError.textContent = 'Date of Birth is required';
+          isValid = false;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email === '') {
+          emailError.textContent = 'Email is required';
+          isValid = false;
+        } else if (!emailRegex.test(email)) {
+          emailError.textContent = 'Invalid email format';
+          isValid = false;
+        }
+
+        // Gender validation
+        if (!gender) {
+          genderError.textContent = 'Please select your gender';
+          isValid = false;
+        }
+
+        return isValid;
+      }
+
+      function saveDataToLocalStorage() {
+        const userData = {
+          firstName: document.getElementById('firstName').value.trim(),
+          lastName: document.getElementById('lastName').value.trim(),
+          password: document.getElementById('password').value,
+          dob: document.getElementById('dob').value,
+          email: document.getElementById('email').value.trim(),
+          gender: document.querySelector('input[name="gender"]:checked').value,
+        };
+
+        // Check if the user already exists in local storage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const isDuplicate = users.some((user) => user.email === userData.email);
+        if (!isDuplicate) {
+          users.push(userData);
+          localStorage.setItem('users', JSON.stringify(users));
+        } else {
+          alert('User already exists!');
+        }
+      }
+    </script>
+     
+  </body>
+</html>
